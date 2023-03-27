@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "dgSpecHash": "wFcp/gvpscH/b04ypZeJY1NO4Y2gloJ7OmHRin7liCNN9TKO+ZXQEeIBBFOo6LWAK1DKyatM0smK9e2chr3+LA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Rossetti\\Desktop\\Projetos\\Orcamento\\Orcamento.Infra\\Orcamento.Infra.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0-preview.1.23111.4\\microsoft.entityframeworkcore.8.0.0-preview.1.23111.4.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.0-preview.1.23111.4\\microsoft.entityframeworkcore.abstractions.8.0.0-preview.1.23111.4.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.0-preview.1.23111.4\\microsoft.entityframeworkcore.analyzers.8.0.0-preview.1.23111.4.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.1\\microsoft.entityframeworkcore.relational.7.0.1.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0-preview.1.23110.8\\microsoft.extensions.caching.abstractions.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.0-preview.1.23110.8\\microsoft.extensions.caching.memory.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0-preview.1.23110.8\\microsoft.extensions.dependencyinjection.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0-preview.1.23110.8\\microsoft.extensions.dependencyinjection.abstractions.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0-preview.1.23110.8\\microsoft.extensions.logging.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0-preview.1.23110.8\\microsoft.extensions.logging.abstractions.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.options\\8.0.0-preview.1.23110.8\\microsoft.extensions.options.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.1.23110.8\\microsoft.extensions.primitives.8.0.0-preview.1.23110.8.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\npgsql\\7.0.1\\npgsql.7.0.1.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.1\\npgsql.entityframeworkcore.postgresql.7.0.1.nupkg.sha512",
+    "C:\\Users\\Rossetti\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
