@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.Authentication.Dtos;
 using Orcamento.Application.Authentication.Services;
+using Orcamento.Application.GenericServices;
 
 namespace Orcamento.Application.Authentication.Controllers;
 

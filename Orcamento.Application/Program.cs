@@ -10,8 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddCors();
-    //TODO rename the dbContext
-    builder.Services.AddDbContext<TemplateDbContext>(options =>
+    builder.Services.AddDbContext<OrcamentoDbContext>(options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
     });

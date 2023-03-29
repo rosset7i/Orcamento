@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orcamento.Infra.AppDbContext;
@@ -11,9 +12,11 @@ using Orcamento.Infra.AppDbContext;
 namespace Orcamento.Infra.Migrations
 {
     [DbContext(typeof(OrcamentoDbContext))]
-    partial class OrcamentoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230328233823_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

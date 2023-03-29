@@ -1,5 +1,4 @@
 ﻿using Orcamento.Application.Authentication.Dtos;
-using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Authentication.Services;
 

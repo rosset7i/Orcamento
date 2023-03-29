@@ -8,17 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.1.23111.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Orcamento.Domain\Orcamento.Domain.csproj"/>
-        <ProjectReference Include="..\Orcamento.Infra\Orcamento.Infra.csproj"/>
+        <ProjectReference Include="..\Orcamento.Domain\Orcamento.Domain.csproj" />
+        <ProjectReference Include="..\Orcamento.Infra\Orcamento.Infra.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Orcamento\Controllers" />
     </ItemGroup>
 
 </Project>

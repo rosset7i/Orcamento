@@ -1,0 +1,9 @@
+.idea/
+Orcamento.Application/bin/
+Orcamento.Application/obj/
+Orcamento.Domain/bin/
+Orcamento.Domain/obj/
+Orcamento.UnitTest/bin/
+Orcamento.UnitTest/obj/
+Orcamento.Infra/bin/
+Orcamento.Infra/obj/

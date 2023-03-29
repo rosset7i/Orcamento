@@ -9,10 +9,11 @@ namespace Orcamento.Application.Authentication.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly TemplateDbContext _context;
+    private readonly OrcamentoDbContext _context;
+    
     private readonly IJwtTokenGeneratorService _tokenGeneratorService;
 
-    public AuthenticationService(TemplateDbContext context, IJwtTokenGeneratorService tokenGeneratorService)
+    public AuthenticationService(OrcamentoDbContext context, IJwtTokenGeneratorService tokenGeneratorService)
     {
         _context = context;
         _tokenGeneratorService = tokenGeneratorService;

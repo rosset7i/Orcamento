@@ -11,7 +11,7 @@ using Orcamento.Infra.AppDbContext;
 
 namespace Orcamento.Infra.Migrations
 {
-    [DbContext(typeof(TemplateDbContext))]
+    [DbContext(typeof(OrcamentoDbContext))]
     [Migration("20230126013356_Add_Initial")]
     partial class AddInitial
     {
