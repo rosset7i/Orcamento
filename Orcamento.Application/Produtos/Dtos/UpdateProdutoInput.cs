@@ -1,6 +1,6 @@
-namespace Orcamento.Application.Orcamento.Dtos;
+namespace Orcamento.Application.Produtos.Dtos;
 
-public class ProdutoOutput
+public class UpdateProdutoInput
 {
     public string Nome { get; set; }
     public string Descricao { get; set; }

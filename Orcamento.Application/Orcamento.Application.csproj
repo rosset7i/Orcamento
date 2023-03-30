@@ -21,8 +21,4 @@
         <ProjectReference Include="..\Orcamento.Infra\Orcamento.Infra.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Orcamento\Controllers" />
-    </ItemGroup>
-
 </Project>

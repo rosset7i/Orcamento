@@ -2,7 +2,10 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Orcamento.Application.Authentication.Services;
-using Orcamento.Application.GenericServices; 
+using Orcamento.Application.Fornecedores.Services;
+using Orcamento.Application.GenericServices;
+using Orcamento.Application.Orcamentos.Services;
+using Orcamento.Application.Produtos.Services;
 using Orcamento.Infra.AppDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +32,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
     builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
     builder.Services.AddScoped<IDateTimeProviderService, DateTimeProviderService>();
+    builder.Services.AddScoped<IOrcamentoService, OrcamentoService>();
+    builder.Services.AddScoped<IProdutoService, ProdutoService>();
+    builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 }
 
 var app = builder.Build();
