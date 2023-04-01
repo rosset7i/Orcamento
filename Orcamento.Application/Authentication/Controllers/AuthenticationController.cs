@@ -6,7 +6,7 @@ using Orcamento.Application.GenericServices;
 
 namespace Orcamento.Application.Authentication.Controllers;
 
-[ApiController, Authorize]
+[ApiController]
 [Route("api/authentication")]
 public class AuthenticationController : ControllerBase
 {

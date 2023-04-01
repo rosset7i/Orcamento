@@ -15,6 +15,11 @@ public class ProdutoOrcamento
     public Guid IdOrcamento { get; set; }
     public Orcamento Orcamento { get; set; }
 
+    public ProdutoOrcamento()
+    {
+        
+    }
+    
     public ProdutoOrcamento(Guid id, double quantidade, Guid idProduto, Guid idOrcamento)
     {
         Id = id;

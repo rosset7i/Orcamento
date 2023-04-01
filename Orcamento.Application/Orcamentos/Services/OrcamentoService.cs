@@ -9,9 +9,9 @@ namespace Orcamento.Application.Orcamentos.Services;
 public class OrcamentoService : IOrcamentoService
 {
     private readonly OrcamentoDbContext _context;
-    private readonly DateTimeProviderService _dateTimeProvider;
+    private readonly IDateTimeProviderService _dateTimeProvider;
 
-    public OrcamentoService(OrcamentoDbContext context, DateTimeProviderService dateTimeProvider)
+    public OrcamentoService(OrcamentoDbContext context, IDateTimeProviderService dateTimeProvider)
     {
         _context = context;
         _dateTimeProvider = dateTimeProvider;

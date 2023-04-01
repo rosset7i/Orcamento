@@ -15,6 +15,11 @@ public class Orcamento
 
     public List<ProdutoOrcamento> ProdutoOrcamento { get; set; }
 
+    public Orcamento()
+    {
+        
+    }    
+
     public Orcamento(Guid id, string nome, DateTime data, double precoTotal, Guid fornecedorId, List<ProdutoOrcamento> produtoOrcamento)
     {
         Id = id;

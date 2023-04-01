@@ -9,6 +9,11 @@ public class Fornecedor
     public List<Orcamento> Orcamento { get; set; }
     public List<Produto> Produto { get; set; }
 
+    public Fornecedor()
+    {
+        
+    }
+    
     public Fornecedor(Guid id, string nome, string endereco, string telefone)
     {
         Id = id;

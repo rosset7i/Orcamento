@@ -14,6 +14,11 @@ public class Produto
     public Fornecedor Fornecedor { get; set; }
 
     public List<ProdutoOrcamento> ProdutoOrcamento { get; set; }
+
+    public Produto()
+    {
+        
+    }
     
     public Produto(Guid id, string nome, string descricao, double preco, Guid idFornecedor)
     {

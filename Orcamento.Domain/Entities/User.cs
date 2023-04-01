@@ -8,6 +8,11 @@ public class User
     public string Email { get; set; }
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
+
+    public User()
+    {
+        
+    }
     
     public User(Guid id, string firstName, string lastName, string email, byte[] passwordHash, byte[] passwordSalt)
     {
