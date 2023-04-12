@@ -7,7 +7,7 @@ public interface IFornecedorService
 {
     Task<List<FornecedorOutput>> GetAllFornecedores();
     Task<FornecedorOutput> GetFornecedor(Guid idFornecedor);
-    Task<OperationResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput);
-    Task<OperationResult> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput);
-    Task<OperationResult> DeleteFornecedor(Guid idFornecedor);
+    Task<FornecedorResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput);
+    Task<FornecedorResult> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput);
+    Task<FornecedorResult> DeleteFornecedor(Guid idFornecedor);
 }

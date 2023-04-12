@@ -52,7 +52,7 @@ public class OrcamentoService : IOrcamentoService
         return orcamentoOutput;
     }
 
-    public async Task<OperationResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput)
+    public async Task<OrcamentoResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput)
     {
         var novoOrcamento = new Domain.Entities.Orcamento(
             id: new Guid(),
@@ -66,16 +66,16 @@ public class OrcamentoService : IOrcamentoService
         await _context.Orcamento.AddAsync(novoOrcamento);
         var itensSalvos = await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? OperationResult.Ok : OperationResult.Erro;
+        return itensSalvos > 0 ? OrcamentoResult.Ok : OrcamentoResult.Erro;
     }
 
-    public async Task<OperationResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
+    public async Task<OrcamentoResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
         {
-            return OperationResult.Erro;
+            return OrcamentoResult.Erro;
         }
         
         orcamento.Nome = updateOrcamentoInput.Nome;
@@ -86,22 +86,22 @@ public class OrcamentoService : IOrcamentoService
         _context.Orcamento.Update(orcamento);
          await _context.SaveChangesAsync();
 
-         return OperationResult.Ok;
+         return OrcamentoResult.Ok;
     }
     
-    public async Task<OperationResult> DeleteOrcamento(Guid idOrcamento)
+    public async Task<OrcamentoResult> DeleteOrcamento(Guid idOrcamento)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
         {
-            return OperationResult.Erro;
+            return OrcamentoResult.Erro;
         }
 
         _context.Orcamento.Remove(orcamento);
         await _context.SaveChangesAsync();
 
-        return OperationResult.Ok;
+        return OrcamentoResult.Ok;
     }
     
 }

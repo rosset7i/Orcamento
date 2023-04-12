@@ -7,7 +7,7 @@ public interface IOrcamentoService
 {
     Task<List<OrcamentoOutput>> GetAllOrcamento();
     Task<OrcamentoOutput> GetOrcamento(Guid idOrcamento);
-    Task<OperationResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput);
-    Task<OperationResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput);
-    Task<OperationResult> DeleteOrcamento(Guid idOrcamento);
+    Task<OrcamentoResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput);
+    Task<OrcamentoResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput);
+    Task<OrcamentoResult> DeleteOrcamento(Guid idOrcamento);
 }

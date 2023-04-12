@@ -1,6 +1,6 @@
 namespace Orcamento.Application.Orcamentos.Enums;
 
-public enum OperationResult
+public enum OrcamentoResult
 {
     Ok = 1,
     Erro = 2

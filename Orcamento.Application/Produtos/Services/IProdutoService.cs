@@ -7,7 +7,7 @@ public interface IProdutoService
 {
     Task<List<ProdutoOutput>> GetAllProdutos(Guid idFornecedor);
     Task<ProdutoOutput> GetProduto(Guid idProduto);
-    Task<OperationResult> CreateProduto(CreateProdutoInput createProdutoInput);
-    Task<OperationResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput);
-    Task<OperationResult> DeleteProduto(Guid idProduto);
+    Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput);
+    Task<ProdutoResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput);
+    Task<ProdutoResult> DeleteProduto(Guid idProduto);
 }

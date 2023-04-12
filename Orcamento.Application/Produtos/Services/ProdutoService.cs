@@ -49,7 +49,7 @@ public class ProdutoService : IProdutoService
         return produtoOutput;
     }
 
-    public async Task<OperationResult> CreateProduto(CreateProdutoInput createProdutoInput)
+    public async Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput)
     {
         var novoProduto = new Produto(
             id: new Guid(),
@@ -62,16 +62,16 @@ public class ProdutoService : IProdutoService
         await _context.Produto.AddAsync(novoProduto);
         var itensSalvos = await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? OperationResult.Ok : OperationResult.Erro;
+        return itensSalvos > 0 ? ProdutoResult.Ok : ProdutoResult.Erro;
     }
 
-    public async Task<OperationResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput)
+    public async Task<ProdutoResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
         {
-            return OperationResult.Erro;
+            return ProdutoResult.Erro;
         }
         
         produto.Nome = updateProdutoInput.Nome;
@@ -81,21 +81,21 @@ public class ProdutoService : IProdutoService
         _context.Produto.Update(produto);
          await _context.SaveChangesAsync();
 
-         return OperationResult.Ok;
+         return ProdutoResult.Ok;
     }
     
-    public async Task<OperationResult> DeleteProduto(Guid idProduto)
+    public async Task<ProdutoResult> DeleteProduto(Guid idProduto)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
         {
-            return OperationResult.Erro;
+            return ProdutoResult.Erro;
         }
 
         _context.Produto.Remove(produto);
         await _context.SaveChangesAsync();
 
-        return OperationResult.Ok;
+        return ProdutoResult.Ok;
     }
 }

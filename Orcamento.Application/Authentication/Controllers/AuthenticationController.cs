@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.Authentication.Dtos;
+using Orcamento.Application.Authentication.Enums;
 using Orcamento.Application.Authentication.Services;
 using Orcamento.Application.GenericServices;
 
@@ -20,14 +21,14 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody]RegisterRequestDto registerRequestDto)
     {
-        var user = await _authenticationService.Register(registerRequestDto);
+        var response = await _authenticationService.Register(registerRequestDto);
 
-        if (user is null)
+        if (response == AuthenticationResult.EmailAlreadyUsed)
         {
-            return BadRequest("This email is already being used!");
+            return BadRequest(AuthenticationResult.EmailAlreadyUsed);
         }
 
-        return Ok("You've registered successfully!");
+        return Ok(response);
     }
     
     [HttpPost("login")]
@@ -37,7 +38,7 @@ public class AuthenticationController : ControllerBase
 
         if (user is null)
         {
-            return BadRequest("Wrong email or password!");
+            return BadRequest(AuthenticationResult.WrongEmailOrPassword);
         }
 
         return Ok(user);

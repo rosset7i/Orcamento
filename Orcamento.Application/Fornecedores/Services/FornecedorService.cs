@@ -48,7 +48,7 @@ public class FornecedorService : IFornecedorService
         return fornecedorOutput;
     }
 
-    public async Task<OperationResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput)
+    public async Task<FornecedorResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput)
     {
         var novoFornecedor = new Fornecedor(
             id: new Guid(),
@@ -60,16 +60,16 @@ public class FornecedorService : IFornecedorService
         await _context.Fornecedor.AddAsync(novoFornecedor);
         var itensSalvos = await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? OperationResult.Ok : OperationResult.Erro;
+        return itensSalvos > 0 ? FornecedorResult.Ok : FornecedorResult.Erro;
     }
 
-    public async Task<OperationResult> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput)
+    public async Task<FornecedorResult> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput)
     {
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
 
         if (fornecedor is null)
         {
-            return OperationResult.Erro;
+            return FornecedorResult.Erro;
         }
         
         fornecedor.Nome = updateFornecedorInput.Nome;
@@ -79,21 +79,21 @@ public class FornecedorService : IFornecedorService
         _context.Fornecedor.Update(fornecedor);
          await _context.SaveChangesAsync();
 
-         return OperationResult.Ok;
+         return FornecedorResult.Ok;
     }
     
-    public async Task<OperationResult> DeleteFornecedor(Guid idFornecedor)
+    public async Task<FornecedorResult> DeleteFornecedor(Guid idFornecedor)
     {
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
 
         if (fornecedor is null)
         {
-            return OperationResult.Erro;
+            return FornecedorResult.Erro;
         }
 
         _context.Fornecedor.Remove(fornecedor);
         await _context.SaveChangesAsync();
 
-        return OperationResult.Ok;
+        return FornecedorResult.Ok;
     }
 }

@@ -38,7 +38,7 @@ public class FornecedoresController : Controller
     {
         var fornecedor = await _fornecedorService.CreateFornecedor(createFornecedorInput);
 
-        return fornecedor == OperationResult.Ok ? Ok() : BadRequest();
+        return fornecedor == FornecedorResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpPut("{id}")]
@@ -46,7 +46,7 @@ public class FornecedoresController : Controller
     {
         var fornecedor = await _fornecedorService.UpdateFornecedor(idFornecedor, updateFornecedorInput);
 
-        return fornecedor == OperationResult.Ok ? Ok() : BadRequest();
+        return fornecedor == FornecedorResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpDelete("{id}")]
@@ -54,6 +54,6 @@ public class FornecedoresController : Controller
     {
         var fornecedor = await _fornecedorService.DeleteFornecedor(idFornecedor);
 
-        return fornecedor == OperationResult.Ok ? Ok() : BadRequest();
+        return fornecedor == FornecedorResult.Ok ? Ok() : BadRequest();
     }
 }

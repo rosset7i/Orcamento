@@ -38,7 +38,7 @@ public class ProdutosController : Controller
     {
         var produto = await _produtoService.CreateProduto(createProdutoInput);
 
-        return produto == OperationResult.Ok ? Ok() : BadRequest();
+        return produto == ProdutoResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpPut("{id}")]
@@ -46,7 +46,7 @@ public class ProdutosController : Controller
     {
         var produto = await _produtoService.UpdateProduto(idProduto, updateProdutoInput);
 
-        return produto == OperationResult.Ok ? Ok() : BadRequest();
+        return produto == ProdutoResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpDelete("{id}")]
@@ -54,6 +54,6 @@ public class ProdutosController : Controller
     {
         var produto = await _produtoService.DeleteProduto(idProduto);
 
-        return produto == OperationResult.Ok ? Ok() : BadRequest();
+        return produto == ProdutoResult.Ok ? Ok() : BadRequest();
     }
 }

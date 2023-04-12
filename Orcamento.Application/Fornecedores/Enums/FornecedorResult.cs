@@ -1,6 +1,6 @@
 namespace Orcamento.Application.Fornecedores.Enums;
 
-public enum OperationResult
+public enum FornecedorResult
 {
     Ok = 1,
     Erro = 2

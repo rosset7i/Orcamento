@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.Authentication.Dtos;
+using Orcamento.Application.Authentication.Enums;
 using Orcamento.Domain.Entities;
 using Orcamento.Infra.AppDbContext;
 
@@ -19,13 +20,13 @@ public class AuthenticationService : IAuthenticationService
         _tokenGeneratorService = tokenGeneratorService;
     }
 
-    public async Task<AuthenticationResponseDto> Register(RegisterRequestDto registerRequestDto)
+    public async Task<AuthenticationResult> Register(RegisterRequestDto registerRequestDto)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == registerRequestDto.Email);
 
         if (user is not null)
         {
-            return null;
+            return AuthenticationResult.EmailAlreadyUsed;
         }
 
         using var hmac = new HMACSHA512();
@@ -42,12 +43,8 @@ public class AuthenticationService : IAuthenticationService
         
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
-
-        var authResponse = new AuthenticationResponseDto(
-                newUser.Email,
-                token);
         
-        return authResponse;
+        return AuthenticationResult.RegisteredSuccessfully;
     }
     
     public async Task<AuthenticationResponseDto> Login(LoginRequestDto loginRequestDto)

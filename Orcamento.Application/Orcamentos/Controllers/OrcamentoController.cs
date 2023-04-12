@@ -37,7 +37,7 @@ public class OrcamentoController : Controller
     {
         var orcamento = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
 
-        return orcamento == OperationResult.Ok ? Ok() : BadRequest();
+        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpPut("{id}")]
@@ -45,7 +45,7 @@ public class OrcamentoController : Controller
     {
         var orcamento = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
 
-        return orcamento == OperationResult.Ok ? Ok() : BadRequest();
+        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
     }
     
     [HttpDelete("{id}")]
@@ -53,6 +53,6 @@ public class OrcamentoController : Controller
     {
         var orcamento = await _orcamentoService.DeleteOrcamento(idOrcamento);
 
-        return orcamento == OperationResult.Ok ? Ok() : BadRequest();
+        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
     }
 }
