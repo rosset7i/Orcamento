@@ -18,12 +18,10 @@ public class ProdutoService : IProdutoService
     public async Task<List<ProdutoOutput>> GetAllProdutos(Guid idFornecedor)
     {
         var produtos = await _context.Produto
-            .Where(produto => produto.IdFornecedor == idFornecedor)
             .Select(produto => new ProdutoOutput
             {
                 Nome = produto.Nome,
                 Descricao = produto.Descricao,
-                Preco = produto.Preco,
             })
             .ToListAsync();
 
@@ -43,7 +41,6 @@ public class ProdutoService : IProdutoService
         {
             Nome = produto.Nome,
             Descricao = produto.Descricao,
-            Preco = produto.Preco
         };
             
         return produtoOutput;
@@ -54,9 +51,7 @@ public class ProdutoService : IProdutoService
         var novoProduto = new Produto(
             id: new Guid(),
             nome: createProdutoInput.Nome,
-            descricao: createProdutoInput.Descricao,
-            preco: createProdutoInput.Preco,
-            idFornecedor: createProdutoInput.IdFornecedor
+            descricao: createProdutoInput.Descricao
         );
 
         await _context.Produto.AddAsync(novoProduto);
@@ -76,7 +71,6 @@ public class ProdutoService : IProdutoService
         
         produto.Nome = updateProdutoInput.Nome;
         produto.Descricao = updateProdutoInput.Descricao;
-        produto.Preco = updateProdutoInput.Preco;
 
         _context.Produto.Update(produto);
          await _context.SaveChangesAsync();

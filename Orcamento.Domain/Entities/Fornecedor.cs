@@ -7,7 +7,6 @@ public class Fornecedor
     public string Endereco { get; set; }
     public string Telefone { get; set; }
     public List<Orcamento> Orcamento { get; set; }
-    public List<Produto> Produto { get; set; }
 
     public Fornecedor()
     {
