@@ -19,17 +19,9 @@ public class OrcamentoService : IOrcamentoService
     
     public async Task<List<OrcamentoOutput>> GetAllOrcamento()
     {
-        var orcamentos = await _context.Orcamento
-            .Select(orcamento => new OrcamentoOutput
-            {
-                Nome = orcamento.Nome,
-                Data = orcamento.Data,
-                PrecoTotal = orcamento.PrecoTotal,
-                ProdutoOrcamento = orcamento.ProdutoOrcamento
-            })
+        return await _context.Orcamento
+            .Select(orcamento => OrcamentoOutput.From(orcamento))
             .ToListAsync();
-
-        return orcamentos;
     }
     
     public async Task<OrcamentoOutput> GetOrcamento(Guid idOrcamento)
@@ -40,28 +32,17 @@ public class OrcamentoService : IOrcamentoService
         {
             return null;
         }
-        
-        var orcamentoOutput = new OrcamentoOutput
-        {
-            Nome = orcamento.Nome,
-            Data = orcamento.Data,
-            PrecoTotal = orcamento.PrecoTotal,
-            ProdutoOrcamento = orcamento.ProdutoOrcamento
-        };
-            
-        return orcamentoOutput;
+
+        return OrcamentoOutput.From(orcamento);;
     }
 
     public async Task<OrcamentoResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput)
     {
-        var novoOrcamento = new Domain.Entities.Orcamento(
-            id: new Guid(),
-            nome: createOrcamentoInput.Nome,
-            data: _dateTimeProvider.UtcNow,
-            precoTotal: createOrcamentoInput.PrecoTotal,
-            fornecedorId: createOrcamentoInput.FornecedorId,
-            produtoOrcamento: createOrcamentoInput.ProdutoOrcamento
-        );
+        var novoOrcamento = new Domain.Entities.OrcamentoEntity(
+            Guid.NewGuid(), 
+            createOrcamentoInput.Nome,
+            _dateTimeProvider.UtcNow,
+            createOrcamentoInput.FornecedorId);
 
         await _context.Orcamento.AddAsync(novoOrcamento);
         var itensSalvos = await _context.SaveChangesAsync();
@@ -79,7 +60,7 @@ public class OrcamentoService : IOrcamentoService
         }
         
         orcamento.Nome = updateOrcamentoInput.Nome;
-        orcamento.Data = updateOrcamentoInput.Data;
+        orcamento.DataDeCriacao = updateOrcamentoInput.Data;
         orcamento.PrecoTotal = updateOrcamentoInput.PrecoTotal;
         orcamento.ProdutoOrcamento = updateOrcamentoInput.ProdutoOrcamento;
 

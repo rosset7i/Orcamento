@@ -20,25 +20,14 @@ public class RevisaoOrcamentoService
 
         var sortedList = new List<ProdutoOrcamento>();
         
-        foreach (var produtosList in produtosFromOrcamento)
-        {
-            foreach (var produto in produtosList)
-            {
-                if (produto.IdProduto.Equals())
-                {
-                    
-                }
-            }
-        }
-        
         
 
 
     }
 
-    public async Task<List<Domain.Entities.Orcamento>> GetOrcamentoList(List<Guid> orcamentosIds)
+    public async Task<List<OrcamentoEntity>> GetOrcamentoList(List<Guid> orcamentosIds)
     {
-        var orcamentos = new List<Domain.Entities.Orcamento>();
+        var orcamentos = new List<OrcamentoEntity>();
 
         foreach (var id in orcamentosIds)
         {
@@ -49,7 +38,7 @@ public class RevisaoOrcamentoService
         return orcamentos;
     }
     
-    public List<List<ProdutoOrcamento>> GetProdutoListForOrcamento(List<Domain.Entities.Orcamento> orcamentos)
+    public List<List<ProdutoOrcamento>> GetProdutoListForOrcamento(List<OrcamentoEntity> orcamentos)
     {
         var produtosFromOrcamento = new List<List<ProdutoOrcamento>>();
 

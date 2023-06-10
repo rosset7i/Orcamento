@@ -6,8 +6,8 @@ using Orcamento.Application.Orcamentos.Services;
 namespace Orcamento.Application.Orcamentos.Controllers;
 
 [ApiController]
-[Route("api/orcamentos")]
-public class OrcamentoController : Controller
+[Route("api/v1/orcamentos")]
+public class OrcamentoController : ControllerBase
 {
     private readonly OrcamentoService _orcamentoService;
 
@@ -19,17 +19,13 @@ public class OrcamentoController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllOrcamentos()
     {
-        var orcamento = await _orcamentoService.GetAllOrcamento();
-
-        return Ok(orcamento);
+        return Ok(await _orcamentoService.GetAllOrcamento());
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{idOrcamento:guid}")]
     public async Task<IActionResult> GetOrcamento([FromRoute]Guid idOrcamento)
     {
-        var orcamento = await _orcamentoService.GetOrcamento(idOrcamento);
-
-        return orcamento is not null ? Ok(orcamento) : NotFound();
+        return Ok(await _orcamentoService.GetOrcamento(idOrcamento));
     }
     
     [HttpPost]
@@ -37,10 +33,10 @@ public class OrcamentoController : Controller
     {
         var orcamento = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
 
-        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
+        return orcamento is OrcamentoResult.Ok ? Ok() : BadRequest();
     }
     
-    [HttpPut("{id}")]
+    [HttpPut("{idOrcamento:guid}")]
     public async Task<IActionResult> UpdateOrcamento([FromRoute]Guid idOrcamento, [FromBody]UpdateOrcamentoInput updateOrcamentoInput)
     {
         var orcamento = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
@@ -48,7 +44,7 @@ public class OrcamentoController : Controller
         return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
     }
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{idOrcamento:guid}")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idOrcamento)
     {
         var orcamento = await _orcamentoService.DeleteOrcamento(idOrcamento);

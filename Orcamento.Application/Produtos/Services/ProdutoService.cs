@@ -15,19 +15,13 @@ public class ProdutoService : IProdutoService
         _context = context;
     }
     
-    public async Task<List<ProdutoOutput>> GetAllProdutos(Guid idFornecedor)
+    public async Task<List<ProdutoOutput>> GetAllProdutos()
     {
-        var produtos = await _context.Produto
-            .Select(produto => new ProdutoOutput
-            {
-                Nome = produto.Nome,
-                Descricao = produto.Descricao,
-            })
+        return await _context.Produto
+            .Select(produto => ProdutoOutput.From(produto))
             .ToListAsync();
-
-        return produtos;
     }
-    
+
     public async Task<ProdutoOutput> GetProduto(Guid idProduto)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
@@ -36,22 +30,17 @@ public class ProdutoService : IProdutoService
         {
             return null;
         }
-        
-        var produtoOutput = new ProdutoOutput
-        {
-            Nome = produto.Nome,
-            Descricao = produto.Descricao,
-        };
-            
-        return produtoOutput;
+
+        return ProdutoOutput.From(produto);;
     }
 
     public async Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput)
     {
         var novoProduto = new Produto(
-            id: new Guid(),
-            nome: createProdutoInput.Nome,
-            descricao: createProdutoInput.Descricao
+            Guid.NewGuid(),
+            createProdutoInput.Nome,
+            createProdutoInput.Marca,
+            createProdutoInput.Descricao
         );
 
         await _context.Produto.AddAsync(novoProduto);
@@ -70,6 +59,7 @@ public class ProdutoService : IProdutoService
         }
         
         produto.Nome = updateProdutoInput.Nome;
+        produto.Marca = updateProdutoInput.Marca;
         produto.Descricao = updateProdutoInput.Descricao;
 
         _context.Produto.Update(produto);

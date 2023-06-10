@@ -2,31 +2,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Orcamento.Domain.Entities;
 
-public class Orcamento
+[Table(name:"orcamento")]
+public class OrcamentoEntity
 {
     public Guid Id { get; set; }
+    [Column()]
     public string Nome { get; set; }
-    public DateTime Data { get; set; }
+    public DateTime DataDeCriacao { get; set; }
     public double PrecoTotal { get; set; }
     
     [ForeignKey("Fornecedor")]
     public Guid FornecedorId { get; set; }
     public Fornecedor Fornecedor { get; set; }
-
     public List<ProdutoOrcamento> ProdutoOrcamento { get; set; }
 
-    public Orcamento()
-    {
-        
-    }    
-
-    public Orcamento(Guid id, string nome, DateTime data, double precoTotal, Guid fornecedorId, List<ProdutoOrcamento> produtoOrcamento)
+    public OrcamentoEntity(
+        Guid id,
+        string nome,
+        DateTime dataDeCriacao,
+        Guid fornecedorId)
     {
         Id = id;
         Nome = nome;
-        Data = data;
-        PrecoTotal = precoTotal;
+        DataDeCriacao = dataDeCriacao;
         FornecedorId = fornecedorId;
-        ProdutoOrcamento = produtoOrcamento;
+        PrecoTotal = CalculatePrecoTotal();
     }
+
+    private double CalculatePrecoTotal()
+    {
+        return ProdutoOrcamento.Sum(produto => produto.PrecoTotal);
+    }
+
 }

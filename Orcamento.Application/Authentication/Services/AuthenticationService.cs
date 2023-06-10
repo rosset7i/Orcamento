@@ -39,8 +39,6 @@ public class AuthenticationService : IAuthenticationService
             hmac.ComputeHash(Encoding.UTF8.GetBytes(registerRequestDto.Password)),
             hmac.Key);
 
-        var token = await _tokenGeneratorService.GenerateToken(newUser.Id, newUser.Email);
-        
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
         
@@ -60,7 +58,7 @@ public class AuthenticationService : IAuthenticationService
         
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginRequestDto.Password));
 
-        for (int i = 0; i < computedHash.Length; i++)
+        for (var i = 0; i < computedHash.Length; i++)
         {
             if (user.PasswordHash[i] != computedHash[i])
             {
@@ -68,7 +66,7 @@ public class AuthenticationService : IAuthenticationService
             }
         }
 
-        var token = await _tokenGeneratorService.GenerateToken(user.Id, user.Email);
+        var token = _tokenGeneratorService.GenerateToken(user);
 
         var authResponse = new AuthenticationResponseDto(
             user.Email,

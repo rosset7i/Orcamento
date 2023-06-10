@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Orcamento.Application.GenericServices;
+using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Authentication.Services;
 
@@ -17,19 +18,19 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
         _dateTimeProviderService = dateTimeProviderService;
         _configuration = configuration;
     }
-    public async Task<string> GenerateToken(Guid id, string email)
+    public string GenerateToken(User user)
     {
         var key = _configuration.GetSection("JwtSettings:Secret").Value!;
         
         var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Secret").Value!)),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             SecurityAlgorithms.HmacSha512);
             
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, "Admin"),
-            new Claim(ClaimTypes.Role, "User")
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, "Admin"),
+            new(ClaimTypes.Role, "User")
         };
 
         var securityToken = new JwtSecurityToken(

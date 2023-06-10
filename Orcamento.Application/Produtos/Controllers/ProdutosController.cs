@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Orcamento.Application.Fornecedores.Dtos;
 using Orcamento.Application.Produtos.Dtos;
 using Orcamento.Application.Produtos.Enums;
 using Orcamento.Application.Produtos.Services;
@@ -7,8 +6,8 @@ using Orcamento.Application.Produtos.Services;
 namespace Orcamento.Application.Produtos.Controllers;
 
 [ApiController]
-[Route("api/produtos")]
-public class ProdutosController : Controller
+[Route("api/v1/produtos")]
+public class ProdutosController : ControllerBase
 {
     private readonly ProdutoService _produtoService;
 
@@ -17,20 +16,16 @@ public class ProdutosController : Controller
         _produtoService = produtoService;
     }
 
-    [HttpGet("{id}/all")]
-    public async Task<IActionResult> GetAllProdutos([FromRoute]Guid idFornecedor)
+    [HttpGet]
+    public async Task<IActionResult> GetAllProdutos()
     {
-        var produtos = await _produtoService.GetAllProdutos(idFornecedor);
-
-        return Ok(produtos);
+        return Ok(await _produtoService.GetAllProdutos());
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{idProduto:guid}")]
     public async Task<IActionResult> GetProduto([FromRoute]Guid idProduto)
     {
-        var produto = await _produtoService.GetProduto(idProduto);
-
-        return produto is not null ? Ok(produto) : NotFound();
+        return Ok(await _produtoService.GetProduto(idProduto));
     }
     
     [HttpPost]
@@ -41,7 +36,7 @@ public class ProdutosController : Controller
         return produto == ProdutoResult.Ok ? Ok() : BadRequest();
     }
     
-    [HttpPut("{id}")]
+    [HttpPut("{idProduto:guid}")]
     public async Task<IActionResult> UpdateProduto([FromRoute]Guid idProduto, [FromBody]UpdateProdutoInput updateProdutoInput)
     {
         var produto = await _produtoService.UpdateProduto(idProduto, updateProdutoInput);
@@ -49,7 +44,7 @@ public class ProdutosController : Controller
         return produto == ProdutoResult.Ok ? Ok() : BadRequest();
     }
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{idProduto:guid}")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idProduto)
     {
         var produto = await _produtoService.DeleteProduto(idProduto);

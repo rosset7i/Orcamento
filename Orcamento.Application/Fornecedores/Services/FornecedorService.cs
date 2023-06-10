@@ -17,16 +17,9 @@ public class FornecedorService : IFornecedorService
     
     public async Task<List<FornecedorOutput>> GetAllFornecedores()
     {
-        var produtos = await _context.Fornecedor
-            .Select(fornecedor => new FornecedorOutput()
-            {
-                Nome = fornecedor.Nome,
-                Endereco  = fornecedor.Endereco,
-                Telefone = fornecedor.Telefone
-            })
+        return await _context.Fornecedor
+            .Select(fornecedor => FornecedorOutput.From(fornecedor))
             .ToListAsync();
-
-        return produtos;
     }
     
     public async Task<FornecedorOutput> GetFornecedor(Guid idFornecedor)
@@ -37,24 +30,17 @@ public class FornecedorService : IFornecedorService
         {
             return null;
         }
-        
-        var fornecedorOutput = new FornecedorOutput
-        {
-            Nome = fornecedor.Nome,
-            Endereco = fornecedor.Endereco,
-            Telefone = fornecedor.Telefone
-        };
-            
-        return fornecedorOutput;
+
+        return FornecedorOutput.From(fornecedor);
     }
 
     public async Task<FornecedorResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput)
     {
         var novoFornecedor = new Fornecedor(
-            id: new Guid(),
-            nome: createFornecedorInput.Nome,
-            endereco: createFornecedorInput.Endereco,
-            telefone: createFornecedorInput.Telefone
+            Guid.NewGuid(),
+            createFornecedorInput.Nome,
+            createFornecedorInput.Endereco,
+            createFornecedorInput.Telefone
         );
 
         await _context.Fornecedor.AddAsync(novoFornecedor);

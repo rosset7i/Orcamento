@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.Authentication.Dtos;
 using Orcamento.Application.Authentication.Enums;
 using Orcamento.Application.Authentication.Services;
-using Orcamento.Application.GenericServices;
 
 namespace Orcamento.Application.Authentication.Controllers;
 
 [ApiController]
-[Route("api/authentication")]
+[Route("api/v1/authentication")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationService _authenticationService;
@@ -23,12 +21,11 @@ public class AuthenticationController : ControllerBase
     {
         var response = await _authenticationService.Register(registerRequestDto);
 
-        if (response == AuthenticationResult.EmailAlreadyUsed)
-        {
-            return BadRequest(AuthenticationResult.EmailAlreadyUsed);
-        }
-
-        return Ok(response);
+        return response == AuthenticationResult.EmailAlreadyUsed
+            ? Problem(
+                statusCode: StatusCodes.Status409Conflict,
+                detail: "Email Already In Use!")
+            : Ok(response);
     }
     
     [HttpPost("login")]

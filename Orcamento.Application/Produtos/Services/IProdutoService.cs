@@ -5,7 +5,7 @@ namespace Orcamento.Application.Produtos.Services;
 
 public interface IProdutoService
 {
-    Task<List<ProdutoOutput>> GetAllProdutos(Guid idFornecedor);
+    Task<List<ProdutoOutput>> GetAllProdutos();
     Task<ProdutoOutput> GetProduto(Guid idProduto);
     Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput);
     Task<ProdutoResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput);

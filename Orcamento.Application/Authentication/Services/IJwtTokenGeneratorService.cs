@@ -1,6 +1,8 @@
-﻿namespace Orcamento.Application.Authentication.Services;
+﻿using Orcamento.Domain.Entities;
+
+namespace Orcamento.Application.Authentication.Services;
 
 public interface IJwtTokenGeneratorService
 {
-    Task<string> GenerateToken(Guid id, string email);
+    string GenerateToken(User user);
 }

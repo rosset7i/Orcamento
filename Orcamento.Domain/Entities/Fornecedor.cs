@@ -6,18 +6,18 @@ public class Fornecedor
     public string Nome { get; set; }
     public string Endereco { get; set; }
     public string Telefone { get; set; }
-    public List<Orcamento> Orcamento { get; set; }
-
-    public Fornecedor()
-    {
-        
-    }
+    public List<OrcamentoEntity> Orcamento { get; set; }
     
-    public Fornecedor(Guid id, string nome, string endereco, string telefone)
+    public Fornecedor(
+        Guid id, 
+        string nome, 
+        string endereco, 
+        string telefone)
     {
         Id = id;
         Nome = nome;
         Endereco = endereco;
         Telefone = telefone;
     }
+    
 }

@@ -4,9 +4,34 @@ namespace Orcamento.Application.Orcamentos.Dtos;
 
 public class OrcamentoOutput
 {
-    public string Nome { get; set; }
-    public DateTime Data { get; set; }
-    public double PrecoTotal { get; set; }
-    //TODO criar dto para ProdutoOrcamento
-    public List<ProdutoOrcamento> ProdutoOrcamento { get; set; }
+    private Guid Id { get; }
+    private string Nome { get; }
+    private DateTime DataDeCriacao { get; }
+    private double PrecoTotal { get; }
+    private List<ProdutoOrcamentoOutput> ProdutoOrcamentoOutput { get; }
+
+    private OrcamentoOutput(
+        Guid id,
+        string nome,
+        DateTime dataDeCriacao,
+        double precoTotal,
+        List<ProdutoOrcamentoOutput> produtoOrcamentoOutputs)
+    {
+        Id = id;
+        Nome = nome;
+        DataDeCriacao = dataDeCriacao;
+        PrecoTotal = precoTotal;
+        ProdutoOrcamentoOutput = produtoOrcamentoOutputs;
+    }
+    
+    public static OrcamentoOutput From(OrcamentoEntity orcamento)
+    {
+        return new OrcamentoOutput(
+            orcamento.Id,
+            orcamento.Nome,
+            orcamento.DataDeCriacao,
+            orcamento.PrecoTotal,
+            Dtos.ProdutoOrcamentoOutput.From(orcamento.ProdutoOrcamento)
+        );
+    }
 }
