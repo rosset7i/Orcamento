@@ -46,9 +46,9 @@ public class AuthenticationService : IAuthenticationService
         return ValueTask.CompletedTask;
     }
     
-    public async Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestDto loginRequestDto)
+    public async Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestInput loginRequestInput)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginRequestDto.Email);
+        var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginRequestInput.Email);
 
         if (user is null)
         {
@@ -57,7 +57,7 @@ public class AuthenticationService : IAuthenticationService
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
         
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginRequestDto.Password));
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginRequestInput.Password));
 
         for (var i = 0; i < computedHash.Length; i++)
         {

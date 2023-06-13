@@ -1,7 +1,5 @@
 ﻿namespace Orcamento.Application.Authentication.Dtos;
 
-public record RegisterRequestInput(
-    string FirstName,
-    string LastName,
+public record LoginRequestInput(
     string Email,
     string Password);

@@ -55,14 +55,13 @@ public class OrcamentoService : IOrcamentoService
     public async Task<ErrorOr<ValueTask>> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
-
+        
         if (orcamento is null)
         {
             return Errors.Common.NotFound;
         }
         
         orcamento.Nome = updateOrcamentoInput.Nome;
-        orcamento.DataDeCriacao = updateOrcamentoInput.Data;
         orcamento.PrecoTotal = updateOrcamentoInput.PrecoTotal;
         orcamento.ProdutoOrcamento = updateOrcamentoInput.ProdutoOrcamento;
 

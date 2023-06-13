@@ -1,8 +1,6 @@
 namespace Orcamento.Application.Produtos.Dtos;
 
-public class CreateProdutoInput
-{
-    public string Nome { get; set; }
-    public string Marca { get; set; }
-    public string Descricao { get; set; }
-}
+public record CreateProdutoInput(
+    string Nome,
+    string Marca,
+    string Descricao);

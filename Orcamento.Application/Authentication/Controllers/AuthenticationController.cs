@@ -26,9 +26,9 @@ public class AuthenticationController : ApiController
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody]LoginRequestDto loginRequestDto)
+    public async Task<IActionResult> Login([FromBody]LoginRequestInput loginRequestInput)
     {
-        var user = await _authenticationService.Login(loginRequestDto);
+        var user = await _authenticationService.Login(loginRequestInput);
 
         return await user.MatchAsync<>(
             result => Ok(user),

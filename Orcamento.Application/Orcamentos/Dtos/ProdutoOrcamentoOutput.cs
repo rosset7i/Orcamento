@@ -2,7 +2,7 @@ using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Orcamentos.Dtos;
 
-public class ProdutoOrcamentoOutput
+public record ProdutoOrcamentoOutput
 {
     private Guid Id { get; }
     private string Nome { get; }

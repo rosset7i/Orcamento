@@ -6,5 +6,5 @@ namespace Orcamento.Application.Authentication.Services;
 public interface IAuthenticationService
 {
     Task<ErrorOr<ValueTask>> Register(RegisterRequestInput registerRequestInput);
-    Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestDto loginRequestDto);
+    Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestInput loginRequestInput);
 }

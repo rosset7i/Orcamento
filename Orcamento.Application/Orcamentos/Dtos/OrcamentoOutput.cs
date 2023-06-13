@@ -2,7 +2,7 @@ using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Orcamentos.Dtos;
 
-public class OrcamentoOutput
+public record OrcamentoOutput
 {
     private Guid Id { get; }
     private string Nome { get; }
@@ -31,7 +31,6 @@ public class OrcamentoOutput
             orcamento.Nome,
             orcamento.DataDeCriacao,
             orcamento.PrecoTotal,
-            Dtos.ProdutoOrcamentoOutput.From(orcamento.ProdutoOrcamento)
-        );
+            Dtos.ProdutoOrcamentoOutput.From(orcamento.ProdutoOrcamento));
     }
 }
