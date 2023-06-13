@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Orcamento.Application.ErrorHandling;
 using Orcamento.Application.Fornecedores.Dtos;
-using Orcamento.Application.Fornecedores.Enums;
 using Orcamento.Application.Fornecedores.Services;
 
 namespace Orcamento.Application.Fornecedores.Controllers;
 
-[ApiController]
 [Route("api/v1/fornecedores")]
-public class FornecedoresController : ControllerBase
+public class FornecedoresController : ApiController
 {
     private readonly FornecedorService _fornecedorService;
 
@@ -25,30 +24,40 @@ public class FornecedoresController : ControllerBase
     [HttpGet("{idFornecedor:guid}")]
     public async Task<IActionResult> GetFornecedor([FromRoute]Guid idFornecedor)
     {
-        return Ok(await _fornecedorService.GetFornecedor(idFornecedor));
+        var result = await _fornecedorService.GetFornecedor(idFornecedor);
+
+        return await result.MatchAsync<>(
+            fornecedorOutput => Ok(fornecedorOutput),
+            errors => Problem(errors));
     }
     
     [HttpPost]
     public async Task<IActionResult> CreateFornecedor([FromBody]CreateFornecedorInput createFornecedorInput)
     {
-        var fornecedorResult = await _fornecedorService.CreateFornecedor(createFornecedorInput);
+        var result = await _fornecedorService.CreateFornecedor(createFornecedorInput);
 
-        return fornecedorResult is FornecedorResult.Ok ? Ok() : BadRequest();
+        return await result.MatchAsync<>(
+            resultOutput => NoContent(),
+            error => Problem(error));
     }
     
     [HttpPut("{idFornecedor:guid}/update")]
     public async Task<IActionResult> UpdateFornecedor([FromRoute]Guid idFornecedor, [FromBody]UpdateFornecedorInput updateFornecedorInput)
     {
-        var fornecedor = await _fornecedorService.UpdateFornecedor(idFornecedor, updateFornecedorInput);
+        var result = await _fornecedorService.UpdateFornecedor(idFornecedor, updateFornecedorInput);
 
-        return fornecedor == FornecedorResult.Ok ? Ok() : BadRequest();
+        return await result.MatchAsync<>(
+            resultOutput => NoContent(),
+            error => Problem(error));
     }
     
     [HttpDelete("{idFornecedor:guid}/delete")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idFornecedor)
     {
-        var fornecedor = await _fornecedorService.DeleteFornecedor(idFornecedor);
+        var result = await _fornecedorService.DeleteFornecedor(idFornecedor);
 
-        return fornecedor == FornecedorResult.Ok ? Ok() : BadRequest();
+        return await result.MatchAsync<>(
+            resultOutput => NoContent(),
+            error => Problem(error));
     }
 }

@@ -1,6 +1,7 @@
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.Produtos.Dtos;
-using Orcamento.Application.Produtos.Enums;
+using Orcamento.Domain.Common.Errors;
 using Orcamento.Domain.Entities;
 using Orcamento.Infra.AppDbContext;
 
@@ -15,47 +16,46 @@ public class ProdutoService : IProdutoService
         _context = context;
     }
     
-    public async Task<List<ProdutoOutput>> GetAllProdutos()
+    public async Task<ErrorOr<List<ProdutoOutput>>> GetAllProdutos()
     {
         return await _context.Produto
             .Select(produto => ProdutoOutput.From(produto))
             .ToListAsync();
     }
 
-    public async Task<ProdutoOutput> GetProduto(Guid idProduto)
+    public async Task<ErrorOr<ProdutoOutput>> GetProduto(Guid idProduto)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
         {
-            return null;
+            return Errors.Common.NotFound;
         }
 
-        return ProdutoOutput.From(produto);;
+        return ProdutoOutput.From(produto);
     }
 
-    public async Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput)
+    public async Task<ErrorOr<ValueTask>> CreateProduto(CreateProdutoInput createProdutoInput)
     {
         var novoProduto = new Produto(
             Guid.NewGuid(),
             createProdutoInput.Nome,
             createProdutoInput.Marca,
-            createProdutoInput.Descricao
-        );
+            createProdutoInput.Descricao);
 
         await _context.Produto.AddAsync(novoProduto);
         var itensSalvos = await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ProdutoResult.Ok : ProdutoResult.Erro;
+        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
 
-    public async Task<ProdutoResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput)
+    public async Task<ErrorOr<ValueTask>> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
         {
-            return ProdutoResult.Erro;
+            return Errors.Common.NotFound;
         }
         
         produto.Nome = updateProdutoInput.Nome;
@@ -63,23 +63,23 @@ public class ProdutoService : IProdutoService
         produto.Descricao = updateProdutoInput.Descricao;
 
         _context.Produto.Update(produto);
-         await _context.SaveChangesAsync();
-
-         return ProdutoResult.Ok;
+        var itensSalvos = await _context.SaveChangesAsync();
+        
+        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
     
-    public async Task<ProdutoResult> DeleteProduto(Guid idProduto)
+    public async Task<ErrorOr<ValueTask>> DeleteProduto(Guid idProduto)
     {
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
         {
-            return ProdutoResult.Erro;
+            return Errors.Common.NotFound;
         }
 
         _context.Produto.Remove(produto);
-        await _context.SaveChangesAsync();
+        var itensSalvos = await _context.SaveChangesAsync();
 
-        return ProdutoResult.Ok;
+        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
 }

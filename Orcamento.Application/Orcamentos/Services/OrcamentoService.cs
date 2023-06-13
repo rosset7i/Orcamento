@@ -1,7 +1,9 @@
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.GenericServices;
 using Orcamento.Application.Orcamentos.Dtos;
-using Orcamento.Application.Orcamentos.Enums;
+using Orcamento.Domain.Common.Errors;
+using Orcamento.Domain.Entities;
 using Orcamento.Infra.AppDbContext;
 
 namespace Orcamento.Application.Orcamentos.Services;
@@ -17,28 +19,28 @@ public class OrcamentoService : IOrcamentoService
         _dateTimeProvider = dateTimeProvider;
     }
     
-    public async Task<List<OrcamentoOutput>> GetAllOrcamento()
+    public async Task<ErrorOr<List<OrcamentoOutput>>> GetAllOrcamento()
     {
         return await _context.Orcamento
             .Select(orcamento => OrcamentoOutput.From(orcamento))
             .ToListAsync();
     }
     
-    public async Task<OrcamentoOutput> GetOrcamento(Guid idOrcamento)
+    public async Task<ErrorOr<OrcamentoOutput>> GetOrcamento(Guid idOrcamento)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
         {
-            return null;
+            return Errors.Common.NotFound;
         }
 
-        return OrcamentoOutput.From(orcamento);;
+        return OrcamentoOutput.From(orcamento);
     }
 
-    public async Task<OrcamentoResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput)
+    public async Task<ErrorOr<ValueTask>> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput)
     {
-        var novoOrcamento = new Domain.Entities.OrcamentoEntity(
+        var novoOrcamento = new OrcamentoEntity(
             Guid.NewGuid(), 
             createOrcamentoInput.Nome,
             _dateTimeProvider.UtcNow,
@@ -47,16 +49,16 @@ public class OrcamentoService : IOrcamentoService
         await _context.Orcamento.AddAsync(novoOrcamento);
         var itensSalvos = await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? OrcamentoResult.Ok : OrcamentoResult.Erro;
+        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
 
-    public async Task<OrcamentoResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
+    public async Task<ErrorOr<ValueTask>> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
         {
-            return OrcamentoResult.Erro;
+            return Errors.Common.NotFound;
         }
         
         orcamento.Nome = updateOrcamentoInput.Nome;
@@ -65,24 +67,24 @@ public class OrcamentoService : IOrcamentoService
         orcamento.ProdutoOrcamento = updateOrcamentoInput.ProdutoOrcamento;
 
         _context.Orcamento.Update(orcamento);
-         await _context.SaveChangesAsync();
+         var itensSalvos = await _context.SaveChangesAsync();
 
-         return OrcamentoResult.Ok;
+         return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
     
-    public async Task<OrcamentoResult> DeleteOrcamento(Guid idOrcamento)
+    public async Task<ErrorOr<ValueTask>> DeleteOrcamento(Guid idOrcamento)
     {
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
         {
-            return OrcamentoResult.Erro;
+            return Errors.Common.NotFound;
         }
 
         _context.Orcamento.Remove(orcamento);
-        await _context.SaveChangesAsync();
+        var itensSalvos = await _context.SaveChangesAsync();
 
-        return OrcamentoResult.Ok;
+        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
     }
     
 }

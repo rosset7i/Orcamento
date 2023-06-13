@@ -1,13 +1,13 @@
+using ErrorOr;
 using Orcamento.Application.Fornecedores.Dtos;
-using Orcamento.Application.Fornecedores.Enums;
 
 namespace Orcamento.Application.Fornecedores.Services;
 
 public interface IFornecedorService
 {
-    Task<List<FornecedorOutput>> GetAllFornecedores();
-    Task<FornecedorOutput?> GetFornecedor(Guid idFornecedor);
-    Task<FornecedorResult> CreateFornecedor(CreateFornecedorInput createFornecedorInput);
-    Task<FornecedorResult> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput);
-    Task<FornecedorResult> DeleteFornecedor(Guid idFornecedor);
+    Task<ErrorOr<List<FornecedorOutput>>> GetAllFornecedores();
+    Task<ErrorOr<FornecedorOutput>> GetFornecedor(Guid idFornecedor);
+    Task<ErrorOr<ValueTask>> CreateFornecedor(CreateFornecedorInput createFornecedorInput);
+    Task<ErrorOr<ValueTask>> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput);
+    Task<ErrorOr<ValueTask>> DeleteFornecedor(Guid idFornecedor);
 }

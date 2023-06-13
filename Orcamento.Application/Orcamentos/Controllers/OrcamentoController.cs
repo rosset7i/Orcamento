@@ -1,19 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Orcamento.Application.ErrorHandling;
 using Orcamento.Application.Orcamentos.Dtos;
-using Orcamento.Application.Orcamentos.Enums;
 using Orcamento.Application.Orcamentos.Services;
 
 namespace Orcamento.Application.Orcamentos.Controllers;
 
-[ApiController]
 [Route("api/v1/orcamentos")]
-public class OrcamentoController : ControllerBase
+public class OrcamentoController : ApiController
 {
     private readonly OrcamentoService _orcamentoService;
 
-    public OrcamentoController(OrcamentoService OrcamentoService)
+    public OrcamentoController(OrcamentoService orcamentoService)
     {
-        _orcamentoService = OrcamentoService;
+        _orcamentoService = orcamentoService;
     }
 
     [HttpGet]
@@ -25,30 +24,40 @@ public class OrcamentoController : ControllerBase
     [HttpGet("{idOrcamento:guid}")]
     public async Task<IActionResult> GetOrcamento([FromRoute]Guid idOrcamento)
     {
-        return Ok(await _orcamentoService.GetOrcamento(idOrcamento));
+        var orcamentoOutput = await _orcamentoService.GetOrcamento(idOrcamento);
+
+        return await orcamentoOutput.MatchAsync<>(
+            result => Ok(result),
+            error => Problem(error));
     }
     
     [HttpPost]
     public async Task<IActionResult> CreateOrcamento([FromBody]CreateOrcamentoInput createOrcamentoInput)
     {
-        var orcamento = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
+        var orcamentoResult = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
 
-        return orcamento is OrcamentoResult.Ok ? Ok() : BadRequest();
+        return await orcamentoResult.MatchAsync<>(
+            result => NoContent(),
+            errors => Problem(errors));
     }
     
     [HttpPut("{idOrcamento:guid}")]
     public async Task<IActionResult> UpdateOrcamento([FromRoute]Guid idOrcamento, [FromBody]UpdateOrcamentoInput updateOrcamentoInput)
     {
-        var orcamento = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
+        var orcamentoResult = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
 
-        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
+        return await orcamentoResult.MatchAsync<>(
+            result => NoContent(),
+            errors => Problem(errors));
     }
     
     [HttpDelete("{idOrcamento:guid}")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idOrcamento)
     {
-        var orcamento = await _orcamentoService.DeleteOrcamento(idOrcamento);
+        var orcamentoResult = await _orcamentoService.DeleteOrcamento(idOrcamento);
 
-        return orcamento == OrcamentoResult.Ok ? Ok() : BadRequest();
+        return await orcamentoResult.MatchAsync<>(
+            result => NoContent(),
+            errors => Problem(errors));
     }
 }

@@ -1,13 +1,13 @@
+using ErrorOr;
 using Orcamento.Application.Orcamentos.Dtos;
-using Orcamento.Application.Orcamentos.Enums;
 
 namespace Orcamento.Application.Orcamentos.Services;
 
 public interface IOrcamentoService
 {
-    Task<List<OrcamentoOutput>> GetAllOrcamento();
-    Task<OrcamentoOutput> GetOrcamento(Guid idOrcamento);
-    Task<OrcamentoResult> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput);
-    Task<OrcamentoResult> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput);
-    Task<OrcamentoResult> DeleteOrcamento(Guid idOrcamento);
+    Task<ErrorOr<List<OrcamentoOutput>>> GetAllOrcamento();
+    Task<ErrorOr<OrcamentoOutput>> GetOrcamento(Guid idOrcamento);
+    Task<ErrorOr<ValueTask>> CreateOrcamento(CreateOrcamentoInput createOrcamentoInput);
+    Task<ErrorOr<ValueTask>> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput);
+    Task<ErrorOr<ValueTask>> DeleteOrcamento(Guid idOrcamento);
 }

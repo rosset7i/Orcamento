@@ -1,8 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.Authentication.Dtos;
-using Orcamento.Application.Authentication.Enums;
+using Orcamento.Domain.Common.Errors;
 using Orcamento.Domain.Entities;
 using Orcamento.Infra.AppDbContext;
 
@@ -20,38 +21,38 @@ public class AuthenticationService : IAuthenticationService
         _tokenGeneratorService = tokenGeneratorService;
     }
 
-    public async Task<AuthenticationResult> Register(RegisterRequestDto registerRequestDto)
+    public async Task<ErrorOr<ValueTask>> Register(RegisterRequestInput registerRequestInput)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == registerRequestDto.Email);
+        var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == registerRequestInput.Email);
 
         if (user is not null)
         {
-            return AuthenticationResult.EmailAlreadyUsed;
+            return Errors.User.DuplicateEmail;
         }
 
         using var hmac = new HMACSHA512();
 
         var newUser = new User(
-            new Guid(),
-            registerRequestDto.FirstName,
-            registerRequestDto.LastName,
-            registerRequestDto.Email,
-            hmac.ComputeHash(Encoding.UTF8.GetBytes(registerRequestDto.Password)),
+            Guid.NewGuid(), 
+            registerRequestInput.FirstName,
+            registerRequestInput.LastName,
+            registerRequestInput.Email,
+            hmac.ComputeHash(Encoding.UTF8.GetBytes(registerRequestInput.Password)),
             hmac.Key);
 
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
         
-        return AuthenticationResult.RegisteredSuccessfully;
+        return ValueTask.CompletedTask;
     }
     
-    public async Task<AuthenticationResponseDto> Login(LoginRequestDto loginRequestDto)
+    public async Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestDto loginRequestDto)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginRequestDto.Email);
 
         if (user is null)
         {
-            return null;
+            return Errors.Authentication.WrongEmailOrPassword;
         }
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -62,13 +63,13 @@ public class AuthenticationService : IAuthenticationService
         {
             if (user.PasswordHash[i] != computedHash[i])
             {
-                return null;
+                return Errors.Authentication.WrongEmailOrPassword;
             }
         }
 
         var token = _tokenGeneratorService.GenerateToken(user);
 
-        var authResponse = new AuthenticationResponseDto(
+        var authResponse = new AuthenticationResponseOutput(
             user.Email,
             token);
         

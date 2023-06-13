@@ -1,13 +1,13 @@
+using ErrorOr;
 using Orcamento.Application.Produtos.Dtos;
-using Orcamento.Application.Produtos.Enums;
 
 namespace Orcamento.Application.Produtos.Services;
 
 public interface IProdutoService
 {
-    Task<List<ProdutoOutput>> GetAllProdutos();
-    Task<ProdutoOutput> GetProduto(Guid idProduto);
-    Task<ProdutoResult> CreateProduto(CreateProdutoInput createProdutoInput);
-    Task<ProdutoResult> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput);
-    Task<ProdutoResult> DeleteProduto(Guid idProduto);
+    Task<ErrorOr<List<ProdutoOutput>>> GetAllProdutos();
+    Task<ErrorOr<ProdutoOutput>> GetProduto(Guid idProduto);
+    Task<ErrorOr<ValueTask>> CreateProduto(CreateProdutoInput createProdutoInput);
+    Task<ErrorOr<ValueTask>> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput);
+    Task<ErrorOr<ValueTask>> DeleteProduto(Guid idProduto);
 }

@@ -1,10 +1,10 @@
-﻿using Orcamento.Application.Authentication.Dtos;
-using Orcamento.Application.Authentication.Enums;
+﻿using ErrorOr;
+using Orcamento.Application.Authentication.Dtos;
 
 namespace Orcamento.Application.Authentication.Services;
 
 public interface IAuthenticationService
 {
-    Task<AuthenticationResult> Register(RegisterRequestDto registerRequestDto);
-    Task<AuthenticationResponseDto> Login(LoginRequestDto loginRequestDto);
+    Task<ErrorOr<ValueTask>> Register(RegisterRequestInput registerRequestInput);
+    Task<ErrorOr<AuthenticationResponseOutput>> Login(LoginRequestDto loginRequestDto);
 }

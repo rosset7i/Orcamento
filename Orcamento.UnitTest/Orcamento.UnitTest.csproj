@@ -6,4 +6,21 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="xunit" Version="2.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UnitTests\Authentication\Controllers" />
+      <Folder Include="UnitTests\Authentication\Services" />
+      <Folder Include="UnitTests\Fornecedores\Controllers" />
+      <Folder Include="UnitTests\Fornecedores\Services" />
+      <Folder Include="UnitTests\GenericServices\Controllers" />
+      <Folder Include="UnitTests\GenericServices\Services" />
+      <Folder Include="UnitTests\Orcamentos\Controllers" />
+      <Folder Include="UnitTests\Orcamentos\Services" />
+      <Folder Include="UnitTests\Produtos\Controllers" />
+      <Folder Include="UnitTests\Produtos\Services" />
+    </ItemGroup>
+
 </Project>

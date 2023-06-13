@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.Authentication.Dtos;
-using Orcamento.Application.Authentication.Enums;
 using Orcamento.Application.Authentication.Services;
+using Orcamento.Application.ErrorHandling;
 
 namespace Orcamento.Application.Authentication.Controllers;
 
-[ApiController]
 [Route("api/v1/authentication")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -17,15 +16,13 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody]RegisterRequestDto registerRequestDto)
+    public async Task<IActionResult> Register([FromBody]RegisterRequestInput registerRequestInput)
     {
-        var response = await _authenticationService.Register(registerRequestDto);
+        var response = await _authenticationService.Register(registerRequestInput);
 
-        return response == AuthenticationResult.EmailAlreadyUsed
-            ? Problem(
-                statusCode: StatusCodes.Status409Conflict,
-                detail: "Email Already In Use!")
-            : Ok(response);
+        return await response.MatchAsync<>(
+            result => Ok(),
+            errors => Problem(errors));
     }
     
     [HttpPost("login")]
@@ -33,12 +30,9 @@ public class AuthenticationController : ControllerBase
     {
         var user = await _authenticationService.Login(loginRequestDto);
 
-        if (user is null)
-        {
-            return BadRequest(AuthenticationResult.WrongEmailOrPassword);
-        }
-
-        return Ok(user);
+        return await user.MatchAsync<>(
+            result => Ok(user),
+            errors => Problem(errors));
     }
     
 }
