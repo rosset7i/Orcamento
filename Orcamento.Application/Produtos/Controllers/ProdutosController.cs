@@ -8,9 +8,9 @@ namespace Orcamento.Application.Produtos.Controllers;
 [Route("api/v1/produtos")]
 public class ProdutosController : ApiController
 {
-    private readonly ProdutoService _produtoService;
+    private readonly IProdutoService _produtoService;
 
-    public ProdutosController(ProdutoService produtoService)
+    public ProdutosController(IProdutoService produtoService)
     {
         _produtoService = produtoService;
     }
@@ -26,7 +26,7 @@ public class ProdutosController : ApiController
     {
         var produtoOutput = await _produtoService.GetProduto(idProduto);
 
-        return await produtoOutput.MatchAsync<>(
+        return produtoOutput.Match(
             result => Ok(result),
             errors => Problem(errors));
     }
@@ -36,27 +36,27 @@ public class ProdutosController : ApiController
     {
         var produtoResult = await _produtoService.CreateProduto(createProdutoInput);
 
-        return await produtoResult.MatchAsync<>(
+        return produtoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }
     
-    [HttpPut("{idProduto:guid}")]
+    [HttpPut("{idProduto:guid}/update")]
     public async Task<IActionResult> UpdateProduto([FromRoute]Guid idProduto, [FromBody]UpdateProdutoInput updateProdutoInput)
     {
         var produtoResult = await _produtoService.UpdateProduto(idProduto, updateProdutoInput);
 
-        return await produtoResult.MatchAsync<>(
+        return produtoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }
     
-    [HttpDelete("{idProduto:guid}")]
+    [HttpDelete("{idProduto:guid}/delete")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idProduto)
     {
         var produtoResult = await _produtoService.DeleteProduto(idProduto);
 
-        return await produtoResult.MatchAsync<>(
+        return produtoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }

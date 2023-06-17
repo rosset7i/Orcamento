@@ -8,13 +8,14 @@
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.11.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0-preview.5.23280.1" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
       <PackageReference Include="NSubstitute" Version="5.0.0" />
       <PackageReference Include="xunit" Version="2.4.2" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="UnitTests\Authentication\Controllers" />
-      <Folder Include="UnitTests\Authentication\Services" />
       <Folder Include="UnitTests\Fornecedores\Controllers" />
       <Folder Include="UnitTests\Fornecedores\Services" />
       <Folder Include="UnitTests\GenericServices\Controllers" />

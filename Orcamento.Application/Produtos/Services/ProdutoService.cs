@@ -44,9 +44,9 @@ public class ProdutoService : IProdutoService
             createProdutoInput.Descricao);
 
         await _context.Produto.AddAsync(novoProduto);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
 
     public async Task<ErrorOr<ValueTask>> UpdateProduto(Guid idProduto, UpdateProdutoInput updateProdutoInput)
@@ -63,9 +63,9 @@ public class ProdutoService : IProdutoService
         produto.Descricao = updateProdutoInput.Descricao;
 
         _context.Produto.Update(produto);
-        var itensSalvos = await _context.SaveChangesAsync();
-        
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        await _context.SaveChangesAsync();
+
+        return ValueTask.CompletedTask;
     }
     
     public async Task<ErrorOr<ValueTask>> DeleteProduto(Guid idProduto)
@@ -78,8 +78,8 @@ public class ProdutoService : IProdutoService
         }
 
         _context.Produto.Remove(produto);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
 }

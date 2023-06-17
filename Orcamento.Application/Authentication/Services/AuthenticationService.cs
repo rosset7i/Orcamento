@@ -26,9 +26,7 @@ public class AuthenticationService : IAuthenticationService
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == registerRequestInput.Email);
 
         if (user is not null)
-        {
             return Errors.User.DuplicateEmail;
-        }
 
         using var hmac = new HMACSHA512();
 
@@ -42,7 +40,7 @@ public class AuthenticationService : IAuthenticationService
 
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
-        
+
         return ValueTask.CompletedTask;
     }
     
@@ -51,21 +49,10 @@ public class AuthenticationService : IAuthenticationService
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginRequestInput.Email);
 
         if (user is null)
-        {
             return Errors.Authentication.WrongEmailOrPassword;
-        }
 
-        using var hmac = new HMACSHA512(user.PasswordSalt);
-        
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginRequestInput.Password));
-
-        for (var i = 0; i < computedHash.Length; i++)
-        {
-            if (user.PasswordHash[i] != computedHash[i])
-            {
-                return Errors.Authentication.WrongEmailOrPassword;
-            }
-        }
+        if (!Verify(loginRequestInput, user))
+            return Errors.Authentication.WrongEmailOrPassword;
 
         var token = _tokenGeneratorService.GenerateToken(user);
 
@@ -74,5 +61,24 @@ public class AuthenticationService : IAuthenticationService
             token);
         
         return authResponse;
+    }
+
+    private bool Verify(LoginRequestInput loginRequestInput, User user)
+    {
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginRequestInput.Password));
+
+        for (var i = 0; i < computedHash.Length; i++)
+        {
+            if (user.PasswordHash[i] != computedHash[i])
+            {
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

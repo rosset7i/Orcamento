@@ -2,23 +2,25 @@ using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.ErrorHandling;
 using Orcamento.Application.Fornecedores.Dtos;
 using Orcamento.Application.Fornecedores.Services;
+using Orcamento.Application.GenericServices.Models;
 
 namespace Orcamento.Application.Fornecedores.Controllers;
 
 [Route("api/v1/fornecedores")]
 public class FornecedoresController : ApiController
 {
-    private readonly FornecedorService _fornecedorService;
+    private readonly IFornecedorService _fornecedorService;
 
-    public FornecedoresController(FornecedorService fornecedorService)
+    public FornecedoresController(IFornecedorService fornecedorService)
     {
         _fornecedorService = fornecedorService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllFornecedores()
+    public async Task<IActionResult> GetAllFornecedores([FromQuery]PagedAndSortedRequest input)
     {
-        return Ok(await _fornecedorService.GetAllFornecedores());
+        var xereca = await _fornecedorService.GetAllFornecedores(input);
+        return Ok(xereca);
     }
     
     [HttpGet("{idFornecedor:guid}")]
@@ -26,7 +28,7 @@ public class FornecedoresController : ApiController
     {
         var result = await _fornecedorService.GetFornecedor(idFornecedor);
 
-        return await result.MatchAsync<>(
+        return result.Match(
             fornecedorOutput => Ok(fornecedorOutput),
             errors => Problem(errors));
     }
@@ -36,7 +38,7 @@ public class FornecedoresController : ApiController
     {
         var result = await _fornecedorService.CreateFornecedor(createFornecedorInput);
 
-        return await result.MatchAsync<>(
+        return result.Match(
             resultOutput => NoContent(),
             error => Problem(error));
     }
@@ -46,7 +48,7 @@ public class FornecedoresController : ApiController
     {
         var result = await _fornecedorService.UpdateFornecedor(idFornecedor, updateFornecedorInput);
 
-        return await result.MatchAsync<>(
+        return result.Match(
             resultOutput => NoContent(),
             error => Problem(error));
     }
@@ -56,7 +58,7 @@ public class FornecedoresController : ApiController
     {
         var result = await _fornecedorService.DeleteFornecedor(idFornecedor);
 
-        return await result.MatchAsync<>(
+        return result.Match(
             resultOutput => NoContent(),
             error => Problem(error));
     }

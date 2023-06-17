@@ -8,9 +8,9 @@ namespace Orcamento.Application.Orcamentos.Controllers;
 [Route("api/v1/orcamentos")]
 public class OrcamentoController : ApiController
 {
-    private readonly OrcamentoService _orcamentoService;
+    private readonly IOrcamentoService _orcamentoService;
 
-    public OrcamentoController(OrcamentoService orcamentoService)
+    public OrcamentoController(IOrcamentoService orcamentoService)
     {
         _orcamentoService = orcamentoService;
     }
@@ -26,7 +26,7 @@ public class OrcamentoController : ApiController
     {
         var orcamentoOutput = await _orcamentoService.GetOrcamento(idOrcamento);
 
-        return await orcamentoOutput.MatchAsync<>(
+        return orcamentoOutput.Match(
             result => Ok(result),
             error => Problem(error));
     }
@@ -36,27 +36,27 @@ public class OrcamentoController : ApiController
     {
         var orcamentoResult = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
 
-        return await orcamentoResult.MatchAsync<>(
+        return orcamentoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }
     
-    [HttpPut("{idOrcamento:guid}")]
+    [HttpPut("{idOrcamento:guid}/update")]
     public async Task<IActionResult> UpdateOrcamento([FromRoute]Guid idOrcamento, [FromBody]UpdateOrcamentoInput updateOrcamentoInput)
     {
         var orcamentoResult = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
 
-        return await orcamentoResult.MatchAsync<>(
+        return orcamentoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }
     
-    [HttpDelete("{idOrcamento:guid}")]
+    [HttpDelete("{idOrcamento:guid}/delete")]
     public async Task<IActionResult> DeleteFornecedor([FromRoute]Guid idOrcamento)
     {
         var orcamentoResult = await _orcamentoService.DeleteOrcamento(idOrcamento);
 
-        return await orcamentoResult.MatchAsync<>(
+        return orcamentoResult.Match(
             result => NoContent(),
             errors => Problem(errors));
     }

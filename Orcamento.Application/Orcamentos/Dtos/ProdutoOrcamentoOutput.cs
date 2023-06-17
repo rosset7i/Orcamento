@@ -4,11 +4,11 @@ namespace Orcamento.Application.Orcamentos.Dtos;
 
 public record ProdutoOrcamentoOutput
 {
-    private Guid Id { get; }
-    private string Nome { get; }
-    private string Marca { get; }
-    private double PrecoUnitario { get; }
-    private double PrecoTotal { get; }
+    public Guid Id { get; }
+    public string Nome { get; }
+    public string Marca { get; }
+    public double PrecoUnitario { get; }
+    public double PrecoTotal { get; }
 
     private ProdutoOrcamentoOutput(
         Guid id,

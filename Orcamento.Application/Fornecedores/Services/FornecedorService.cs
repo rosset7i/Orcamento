@@ -1,6 +1,6 @@
 using ErrorOr;
-using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.Fornecedores.Dtos;
+using Orcamento.Application.GenericServices.Models;
 using Orcamento.Domain.Common.Errors;
 using Orcamento.Domain.Entities;
 using Orcamento.Infra.AppDbContext;
@@ -16,13 +16,14 @@ public class FornecedorService : IFornecedorService
         _context = context;
     }
     
-    public async Task<ErrorOr<List<FornecedorOutput>>> GetAllFornecedores()
+    public async Task<PagedAndSortedResult<FornecedorOutput>> GetAllFornecedores(PagedAndSortedRequest input)
     {
-        return await _context.Fornecedor
-            .Select(fornecedor => FornecedorOutput.From(fornecedor))
-            .ToListAsync();
+        var result = _context.Fornecedor
+            .Select(fornecedor => FornecedorOutput.From(fornecedor));
+
+        return await PagedAndSortedResult<FornecedorOutput>.From(input, result);
     }
-    
+
     public async Task<ErrorOr<FornecedorOutput>> GetFornecedor(Guid idFornecedor)
     {
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
@@ -44,9 +45,9 @@ public class FornecedorService : IFornecedorService
             createFornecedorInput.Telefone);
 
         await _context.Fornecedor.AddAsync(novoFornecedor);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
 
     public async Task<ErrorOr<ValueTask>> UpdateFornecedor(Guid idFornecedor, UpdateFornecedorInput updateFornecedorInput)
@@ -63,9 +64,9 @@ public class FornecedorService : IFornecedorService
         fornecedor.Telefone = updateFornecedorInput.Telefone;
 
         _context.Fornecedor.Update(fornecedor);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
     
     public async Task<ErrorOr<ValueTask>> DeleteFornecedor(Guid idFornecedor)
@@ -78,8 +79,8 @@ public class FornecedorService : IFornecedorService
         }
 
         _context.Fornecedor.Remove(fornecedor);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
 }

@@ -2,12 +2,12 @@ using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Produtos.Dtos;
 
-public record ProdutoOutput
+public class ProdutoOutput
 {
-    private Guid Id { get; }
-    private string Nome { get; }
-    private string Marca { get; }
-    private string Descricao { get; }
+    public Guid Id { get; }
+    public string Nome { get; }
+    public string Marca { get; }
+    public string Descricao { get; }
 
     public ProdutoOutput()
     {

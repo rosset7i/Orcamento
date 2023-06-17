@@ -2,13 +2,13 @@ using Orcamento.Domain.Entities;
 
 namespace Orcamento.Application.Orcamentos.Dtos;
 
-public record OrcamentoOutput
+public class OrcamentoOutput
 {
-    private Guid Id { get; }
-    private string Nome { get; }
-    private DateTime DataDeCriacao { get; }
-    private double PrecoTotal { get; }
-    private List<ProdutoOrcamentoOutput> ProdutoOrcamentoOutput { get; }
+    public Guid Id { get; }
+    public string Nome { get; }
+    public DateTime DataDeCriacao { get; }
+    public double PrecoTotal { get; }
+    public List<ProdutoOrcamentoOutput> ProdutoOrcamentoOutput { get; }
 
     private OrcamentoOutput(
         Guid id,

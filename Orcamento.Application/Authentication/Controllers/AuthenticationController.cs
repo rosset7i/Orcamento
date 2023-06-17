@@ -20,7 +20,7 @@ public class AuthenticationController : ApiController
     {
         var response = await _authenticationService.Register(registerRequestInput);
 
-        return await response.MatchAsync<>(
+        return response.Match(
             result => Ok(),
             errors => Problem(errors));
     }
@@ -30,7 +30,7 @@ public class AuthenticationController : ApiController
     {
         var user = await _authenticationService.Login(loginRequestInput);
 
-        return await user.MatchAsync<>(
+        return user.Match(
             result => Ok(user),
             errors => Problem(errors));
     }

@@ -47,9 +47,9 @@ public class OrcamentoService : IOrcamentoService
             createOrcamentoInput.FornecedorId);
 
         await _context.Orcamento.AddAsync(novoOrcamento);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
 
     public async Task<ErrorOr<ValueTask>> UpdateOrcamento(Guid idOrcamento, UpdateOrcamentoInput updateOrcamentoInput)
@@ -66,9 +66,9 @@ public class OrcamentoService : IOrcamentoService
         orcamento.ProdutoOrcamento = updateOrcamentoInput.ProdutoOrcamento;
 
         _context.Orcamento.Update(orcamento);
-         var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-         return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
     
     public async Task<ErrorOr<ValueTask>> DeleteOrcamento(Guid idOrcamento)
@@ -81,9 +81,9 @@ public class OrcamentoService : IOrcamentoService
         }
 
         _context.Orcamento.Remove(orcamento);
-        var itensSalvos = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-        return itensSalvos > 0 ? ValueTask.CompletedTask : Errors.Common.PersistEntityError;
+        return ValueTask.CompletedTask;
     }
     
 }
