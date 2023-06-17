@@ -1,6 +1,7 @@
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.GenericServices;
+using Orcamento.Application.GenericServices.Models;
 using Orcamento.Application.Orcamentos.Dtos;
 using Orcamento.Domain.Common.Errors;
 using Orcamento.Domain.Entities;
@@ -19,11 +20,12 @@ public class OrcamentoService : IOrcamentoService
         _dateTimeProvider = dateTimeProvider;
     }
     
-    public async Task<ErrorOr<List<OrcamentoOutput>>> GetAllOrcamento()
+    public async Task<ErrorOr<PagedAndSortedResult<OrcamentoOutput>>> GetAllOrcamento(PagedAndSortedRequest input)
     {
-        return await _context.Orcamento
-            .Select(orcamento => OrcamentoOutput.From(orcamento))
-            .ToListAsync();
+        var result = _context.Orcamento
+            .Select(orcamento => OrcamentoOutput.From(orcamento));
+
+        return await PagedAndSortedResult<OrcamentoOutput>.From(input, result);
     }
     
     public async Task<ErrorOr<OrcamentoOutput>> GetOrcamento(Guid idOrcamento)
@@ -31,9 +33,7 @@ public class OrcamentoService : IOrcamentoService
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         return OrcamentoOutput.From(orcamento);
     }
@@ -57,9 +57,7 @@ public class OrcamentoService : IOrcamentoService
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
         
         if (orcamento is null)
-        {
             return Errors.Common.NotFound;
-        }
         
         orcamento.Nome = updateOrcamentoInput.Nome;
         orcamento.PrecoTotal = updateOrcamentoInput.PrecoTotal;
@@ -76,9 +74,7 @@ public class OrcamentoService : IOrcamentoService
         var orcamento = await _context.Orcamento.FindAsync(idOrcamento);
 
         if (orcamento is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         _context.Orcamento.Remove(orcamento);
         await _context.SaveChangesAsync();

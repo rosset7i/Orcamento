@@ -19,8 +19,7 @@ public class FornecedoresController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetAllFornecedores([FromQuery]PagedAndSortedRequest input)
     {
-        var xereca = await _fornecedorService.GetAllFornecedores(input);
-        return Ok(xereca);
+        return Ok(await _fornecedorService.GetAllFornecedores(input));
     }
     
     [HttpGet("{idFornecedor:guid}")]

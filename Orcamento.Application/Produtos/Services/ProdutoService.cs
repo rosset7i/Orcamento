@@ -1,5 +1,6 @@
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+using Orcamento.Application.GenericServices.Models;
 using Orcamento.Application.Produtos.Dtos;
 using Orcamento.Domain.Common.Errors;
 using Orcamento.Domain.Entities;
@@ -16,11 +17,12 @@ public class ProdutoService : IProdutoService
         _context = context;
     }
     
-    public async Task<ErrorOr<List<ProdutoOutput>>> GetAllProdutos()
+    public async Task<ErrorOr<PagedAndSortedResult<ProdutoOutput>>> GetAllProdutos(PagedAndSortedRequest input)
     {
-        return await _context.Produto
-            .Select(produto => ProdutoOutput.From(produto))
-            .ToListAsync();
+        var result = _context.Produto
+            .Select(produto => ProdutoOutput.From(produto));
+
+        return await PagedAndSortedResult<ProdutoOutput>.From(input, result);
     }
 
     public async Task<ErrorOr<ProdutoOutput>> GetProduto(Guid idProduto)
@@ -28,9 +30,7 @@ public class ProdutoService : IProdutoService
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         return ProdutoOutput.From(produto);
     }
@@ -54,9 +54,7 @@ public class ProdutoService : IProdutoService
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
-        {
             return Errors.Common.NotFound;
-        }
         
         produto.Nome = updateProdutoInput.Nome;
         produto.Marca = updateProdutoInput.Marca;
@@ -73,9 +71,7 @@ public class ProdutoService : IProdutoService
         var produto = await _context.Produto.FindAsync(idProduto);
 
         if (produto is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         _context.Produto.Remove(produto);
         await _context.SaveChangesAsync();

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.ErrorHandling;
+using Orcamento.Application.GenericServices.Models;
 using Orcamento.Application.Produtos.Dtos;
 using Orcamento.Application.Produtos.Services;
 
@@ -16,9 +17,9 @@ public class ProdutosController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProdutos()
+    public async Task<IActionResult> GetAllProdutos([FromQuery]PagedAndSortedRequest input)
     {
-        return Ok(await _produtoService.GetAllProdutos());
+        return Ok(await _produtoService.GetAllProdutos(input));
     }
     
     [HttpGet("{idProduto:guid}")]

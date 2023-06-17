@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Orcamento.Application.ErrorHandling;
+using Orcamento.Application.GenericServices.Models;
 using Orcamento.Application.Orcamentos.Dtos;
 using Orcamento.Application.Orcamentos.Services;
 
@@ -16,9 +17,9 @@ public class OrcamentoController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllOrcamentos()
+    public async Task<IActionResult> GetAllOrcamentos([FromQuery]PagedAndSortedRequest input)
     {
-        return Ok(await _orcamentoService.GetAllOrcamento());
+        return Ok(await _orcamentoService.GetAllOrcamento(input));
     }
     
     [HttpGet("{idOrcamento:guid}")]

@@ -29,9 +29,7 @@ public class FornecedorService : IFornecedorService
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
 
         if (fornecedor is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         return FornecedorOutput.From(fornecedor);
     }
@@ -55,9 +53,7 @@ public class FornecedorService : IFornecedorService
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
 
         if (fornecedor is null)
-        {
             return Errors.Common.NotFound;
-        }
         
         fornecedor.Nome = updateFornecedorInput.Nome;
         fornecedor.Endereco = updateFornecedorInput.Endereco;
@@ -74,9 +70,7 @@ public class FornecedorService : IFornecedorService
         var fornecedor = await _context.Fornecedor.FindAsync(idFornecedor);
 
         if (fornecedor is null)
-        {
             return Errors.Common.NotFound;
-        }
 
         _context.Fornecedor.Remove(fornecedor);
         await _context.SaveChangesAsync();
