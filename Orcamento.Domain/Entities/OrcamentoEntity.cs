@@ -26,12 +26,6 @@ public class OrcamentoEntity
         Nome = nome;
         DataDeCriacao = dataDeCriacao;
         FornecedorId = fornecedorId;
-        PrecoTotal = CalculatePrecoTotal();
-    }
-
-    private double CalculatePrecoTotal()
-    {
-        return ProdutoOrcamento.Sum(produto => produto.PrecoTotal);
     }
 
 }

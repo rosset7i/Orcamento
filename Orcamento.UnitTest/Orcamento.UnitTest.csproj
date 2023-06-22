@@ -17,8 +17,6 @@
     <ItemGroup>
       <Folder Include="UnitTests\Fornecedores\Controllers" />
       <Folder Include="UnitTests\Fornecedores\Services" />
-      <Folder Include="UnitTests\GenericServices\Controllers" />
-      <Folder Include="UnitTests\GenericServices\Services" />
       <Folder Include="UnitTests\Orcamentos\Controllers" />
       <Folder Include="UnitTests\Orcamentos\Services" />
       <Folder Include="UnitTests\Produtos\Controllers" />

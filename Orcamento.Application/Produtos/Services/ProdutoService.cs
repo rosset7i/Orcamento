@@ -55,9 +55,7 @@ public class ProdutoService : IProdutoService
         if (produto is null)
             return Errors.Common.NotFound;
         
-        produto.Nome = updateProdutoInput.Nome;
-        produto.Marca = updateProdutoInput.Marca;
-        produto.Descricao = updateProdutoInput.Descricao;
+        updateProdutoInput.Update(produto);
 
         _context.Produto.Update(produto);
         await _context.SaveChangesAsync();

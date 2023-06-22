@@ -57,10 +57,8 @@ public class OrcamentoService : IOrcamentoService
         
         if (orcamento is null)
             return Errors.Common.NotFound;
-        
-        orcamento.Nome = updateOrcamentoInput.Nome;
-        orcamento.PrecoTotal = updateOrcamentoInput.PrecoTotal;
-        orcamento.ProdutoOrcamento = updateOrcamentoInput.ProdutoOrcamento;
+
+        updateOrcamentoInput.Update(orcamento);
 
         _context.Orcamento.Update(orcamento);
         await _context.SaveChangesAsync();

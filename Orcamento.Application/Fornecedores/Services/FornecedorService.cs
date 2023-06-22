@@ -55,9 +55,7 @@ public class FornecedorService : IFornecedorService
         if (fornecedor is null)
             return Errors.Common.NotFound;
         
-        fornecedor.Nome = updateFornecedorInput.Nome;
-        fornecedor.Endereco = updateFornecedorInput.Endereco;
-        fornecedor.Telefone = updateFornecedorInput.Telefone;
+        updateFornecedorInput.Update(fornecedor);
 
         _context.Fornecedor.Update(fornecedor);
         await _context.SaveChangesAsync();
