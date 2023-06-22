@@ -1,6 +1,6 @@
 namespace Orcamento.UnitTest.TestUtils;
 
-public static partial class Constants
+public static class Constants
 {
     public static class User
     {
@@ -9,8 +9,7 @@ public static partial class Constants
         public const string LastName = "Last Name";
         public const string Email = "User Email";
         public const string Password = "User Password";
-        public const string PasswordHash = "User Password";
-        public const string PasswordSalt = "User Password";
+        public const string Token = "A38A5475-ADCD-44C3-8067-72AE5BC10986";
 
         public static string UserIdFromIndex(int index) => $"{Id} {index}";
         public static string UserFirstNameFromIndex(int index) => $"{FirstName} {index}";

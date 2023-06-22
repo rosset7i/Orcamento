@@ -38,7 +38,7 @@ public class FornecedoresController : ApiController
         var result = await _fornecedorService.CreateFornecedor(createFornecedorInput);
 
         return result.Match(
-            resultOutput => NoContent(),
+            _ => NoContent(),
             error => Problem(error));
     }
     
@@ -48,7 +48,7 @@ public class FornecedoresController : ApiController
         var result = await _fornecedorService.UpdateFornecedor(idFornecedor, updateFornecedorInput);
 
         return result.Match(
-            resultOutput => NoContent(),
+            _ => NoContent(),
             error => Problem(error));
     }
     
@@ -58,7 +58,7 @@ public class FornecedoresController : ApiController
         var result = await _fornecedorService.DeleteFornecedor(idFornecedor);
 
         return result.Match(
-            resultOutput => NoContent(),
+            _ => NoContent(),
             error => Problem(error));
     }
 }

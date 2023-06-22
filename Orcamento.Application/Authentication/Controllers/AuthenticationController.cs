@@ -21,7 +21,7 @@ public class AuthenticationController : ApiController
         var response = await _authenticationService.Register(registerRequestInput);
 
         return response.Match(
-            result => Ok(),
+            _ => Ok(),
             errors => Problem(errors));
     }
     
@@ -31,7 +31,7 @@ public class AuthenticationController : ApiController
         var user = await _authenticationService.Login(loginRequestInput);
 
         return user.Match(
-            result => Ok(user),
+            result => Ok(result),
             errors => Problem(errors));
     }
     

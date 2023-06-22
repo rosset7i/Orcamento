@@ -1,5 +1,4 @@
 using ErrorOr;
-using Microsoft.EntityFrameworkCore;
 using Orcamento.Application.GenericServices.Models;
 using Orcamento.Application.Produtos.Dtos;
 using Orcamento.Domain.Common.Errors;

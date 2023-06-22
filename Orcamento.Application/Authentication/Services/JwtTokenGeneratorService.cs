@@ -12,7 +12,8 @@ public class JwtTokenGeneratorService : IJwtTokenGeneratorService
     private readonly IDateTimeProviderService _dateTimeProviderService;
     private readonly IConfiguration _configuration;
 
-    public JwtTokenGeneratorService(IDateTimeProviderService dateTimeProviderService,
+    public JwtTokenGeneratorService(
+        IDateTimeProviderService dateTimeProviderService,
         IConfiguration configuration)
     {
         _dateTimeProviderService = dateTimeProviderService;

@@ -38,7 +38,7 @@ public class ProdutosController : ApiController
         var produtoResult = await _produtoService.CreateProduto(createProdutoInput);
 
         return produtoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
     
@@ -48,7 +48,7 @@ public class ProdutosController : ApiController
         var produtoResult = await _produtoService.UpdateProduto(idProduto, updateProdutoInput);
 
         return produtoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
     
@@ -58,7 +58,7 @@ public class ProdutosController : ApiController
         var produtoResult = await _produtoService.DeleteProduto(idProduto);
 
         return produtoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
 }

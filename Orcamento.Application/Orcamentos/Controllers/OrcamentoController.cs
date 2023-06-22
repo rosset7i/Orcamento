@@ -38,7 +38,7 @@ public class OrcamentoController : ApiController
         var orcamentoResult = await _orcamentoService.CreateOrcamento(createOrcamentoInput);
 
         return orcamentoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
     
@@ -48,7 +48,7 @@ public class OrcamentoController : ApiController
         var orcamentoResult = await _orcamentoService.UpdateOrcamento(idOrcamento, updateOrcamentoInput);
 
         return orcamentoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
     
@@ -58,7 +58,7 @@ public class OrcamentoController : ApiController
         var orcamentoResult = await _orcamentoService.DeleteOrcamento(idOrcamento);
 
         return orcamentoResult.Match(
-            result => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors));
     }
 }

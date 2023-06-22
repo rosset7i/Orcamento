@@ -6,7 +6,7 @@ namespace Orcamento.Domain.Entities;
 public class OrcamentoEntity
 {
     public Guid Id { get; set; }
-    [Column()]
+    [Column]
     public string Nome { get; set; }
     public DateTime DataDeCriacao { get; set; }
     public double PrecoTotal { get; set; }
